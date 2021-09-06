@@ -11,6 +11,6 @@ router.post("/movies", controller.findMovie.bind(controller)); // busca por nome
 
 router.post("/favorite", controller.addFavorite.bind(controller)); // {"imdbID": ""}
 
-router.delete("/favorite/:key", controller.deleteFavorite.bind(controller)); // remove da lista de favoritos
+router.delete("/favorite/:imdbID", controller.deleteFavorite.bind(controller)); // remove da lista de favoritos
 
 export = router;

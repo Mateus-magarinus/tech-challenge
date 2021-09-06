@@ -14,8 +14,6 @@ class Service {
         throw error;
       });
 
-    Mongo.setDataSearched(movieName);
-    Mongo.setDataMovie(data.Search);
     return data.Search;
   }
   async findMovieByImdbID(imdbID: string) {

@@ -1,3 +1,7 @@
+const mongodbAuth = {
+  user: "deploy_user",
+  password: "uploadDeploy",
+};
 export = {
   provider: {
     baseURL: "http://www.omdbapi.com/",
@@ -14,6 +18,6 @@ export = {
     TTL: 600,
   },
   mongodb: {
-    uri: "mongodb+srv://db_user:bb9zEtvcienLvgH@cluster0.hls9x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    uri: `mongodb+srv://${mongodbAuth.user}:${mongodbAuth.password}@cluster0.hls9x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   },
 };

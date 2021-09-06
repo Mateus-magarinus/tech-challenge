@@ -46,16 +46,18 @@ class Mongo {
     // TO DO:
     // - Find duplicate data and erase them
     // - compare by imdbID
-    data.forEach((movie: Movie) => {
-      const newMovie = new this.MovieModel(movie);
-      newMovie.save((error) => {
-        if (error) {
-          console.log(`Error trying to save: ${error}`);
-        } else {
-          console.log("Data Movie has been saved!");
-        }
+    try {
+      data.forEach(async (movie: Movie) => {
+        const newMovie = new this.MovieModel(movie);
+        await newMovie.save((error) => {
+          if (error) {
+            console.log(`Error trying to save: ${error}`);
+          }
+        });
       });
-    });
+    } catch (error: any) {
+      throw new Error(`Error trying to save: ${error.message}`);
+    }
   }
 
   static getDataMovie(title: string): any {
@@ -67,21 +69,23 @@ class Mongo {
       .then((response) => {
         return response;
       })
-      .catch((err) => {
-        throw err;
+      .catch((error) => {
+        throw new Error(`Error trying to find: ${error.message}`);
       });
   }
 
-  static setDataSearched(title: any) {
-    const newSearch = new this.SearchedModel({ Title: title });
-    newSearch.save((error) => {
-      if (error) {
-        console.log(`Error trying to save: ${error}`);
-        throw error;
-      } else {
-        console.log("Data Search has been saved!");
-      }
-    });
+  static async setDataSearched(title: any) {
+    try {
+      const newSearch = new this.SearchedModel({ Title: title });
+      await newSearch.save((error) => {
+        if (error) {
+          console.log(`Error trying to save: ${error}`);
+          throw error;
+        }
+      });
+    } catch (error: any) {
+      throw new Error(`Error trying to save: ${error.message}`);
+    }
   }
 
   static getDataSearched(title: string) {
@@ -93,8 +97,8 @@ class Mongo {
         }
         return false;
       })
-      .catch((err) => {
-        throw err;
+      .catch((error) => {
+        throw new Error(`Error trying to find: ${error.message}`);
       });
   }
 
@@ -104,22 +108,23 @@ class Mongo {
       .then((response) => {
         return response;
       })
-      .catch((err) => {
-        throw err;
+      .catch((error) => {
+        throw new Error(`Error trying to find: ${error.message}`);
       });
   }
 
-  static setDataFavorite(data: any) {
-    const newFavorite = new this.FavoriteModel(data);
-    console.log(newFavorite);
-    newFavorite.save((error) => {
-      if (error) {
-        console.log(`Error trying to save: ${error}`);
-        throw error;
-      } else {
-        console.log("Data Favorite has been saved!");
-      }
-    });
+  static async setDataFavorite(data: any) {
+    try {
+      const newFavorite = new this.FavoriteModel(data);
+      await newFavorite.save((error) => {
+        if (error) {
+          console.log(`Error trying to save: ${error}`);
+          throw error;
+        }
+      });
+    } catch (error: any) {
+      throw new Error(`Error trying to save: ${error.message}`);
+    }
   }
 
   static getDataFavorite() {
@@ -127,8 +132,21 @@ class Mongo {
       .then((response) => {
         return response;
       })
-      .catch((err) => {
-        throw err;
+      .catch((error) => {
+        throw new Error(`Error trying to find: ${error.message}`);
+      });
+  }
+
+  static async removeDataFavorite(imdbID: string) {
+    await this.FavoriteModel.deleteOne({ imdbID: imdbID })
+      .then((response) => {
+        if (response.deletedCount === 0) {
+          throw new Error(`${imdbID} not found in favorite list.`);
+        }
+        console.log("Data Favorite has been removed!");
+      })
+      .catch((error) => {
+        throw new Error(`Error trying to remove: ${error.message}`);
       });
   }
 }

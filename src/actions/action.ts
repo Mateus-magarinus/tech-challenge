@@ -25,6 +25,8 @@ class Action {
           );
         } else {
           data = await this.service.findMovie(movieName);
+          await Mongo.setDataSearched(movieName);
+          Mongo.setDataMovie(data);
         }
 
         this.redisClient.setValue(
@@ -56,21 +58,20 @@ class Action {
       let data = await Mongo.getDataMovieByImdbID(imdbID);
 
       if (data.length === 0) {
-        throw new Error(`${imdbID} not found in database.`);
+        throw new Error(`imdbID: ${imdbID} - not found in database.`);
       }
 
-      Mongo.setDataFavorite(data[0]);
+      await Mongo.setDataFavorite(data[0]);
     } catch (error) {
       throw error;
     }
   }
 
-  deleteFavorite() {
-    console.log("[Controller] - getMovie");
-  }
-
-  getMovie() {
-    console.log("[Controller] - getMovie");
+  async deleteFavorite(imdbID: string) {
+    console.log("[Action] - deleteFavorite");
+    await Mongo.removeDataFavorite(imdbID).catch((err) => {
+      throw err;
+    });
   }
 }
 export default Action;
