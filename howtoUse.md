@@ -1,5 +1,20 @@
 # Tech-challenge-Mateus-Magarinus
 
+## Comandos para executar localmente:
+  #### Instala dependencias do projeto ( Node.js e NPM devem estar instalados )
+  ```
+    npm install
+  ```
+  #### Inicia conteiner com Redis ( Precisa possuir Docker instalado )
+  ```
+    docker-compose up
+  ```
+  #### Build e inicia o projecto
+  ```
+    npm run build && npm run start
+  ```
+    
+  
 ## Rotas
 
 - POST - /movies -> Busca por filmes;
