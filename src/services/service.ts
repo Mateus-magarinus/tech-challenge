@@ -6,7 +6,7 @@ class Service {
   private httpClient = new HttpClient(config.provider.baseURL);
 
   async findMovie(movieName: string) {
-    console.log("[Service] - getMovie");
+    console.log("[Service] - findMovie");
 
     const { data } = await this.httpClient
       .getData(`?apikey=${config.constants.API_KEY}&s=${movieName}`)
@@ -16,6 +16,17 @@ class Service {
 
     Mongo.setDataSearched(movieName);
     Mongo.setDataMovie(data.Search);
+    return data.Search;
+  }
+  async findMovieByImdbID(imdbID: string) {
+    console.log("[Service] - findMovieByImdbID");
+
+    const { data } = await this.httpClient
+      .getData(`?apikey=${config.constants.API_KEY}&i=${imdbID}`)
+      .catch((error: AxiosError) => {
+        throw error;
+      });
+
     return data.Search;
   }
 }

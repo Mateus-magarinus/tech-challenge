@@ -15,6 +15,8 @@ class Mongo {
 
   private static MovieModel = mongoose.model("Movie", Mongo.movieSchema);
 
+  private static FavoriteModel = mongoose.model("Favorites", Mongo.movieSchema);
+
   private static SearchedModel = mongoose.model(
     "Searched",
     Mongo.searchedSchema
@@ -61,6 +63,7 @@ class Mongo {
       { Title: { $regex: title, $options: "i" } },
       { _id: 0 }
     )
+      .lean()
       .then((response) => {
         return response;
       })
@@ -74,6 +77,7 @@ class Mongo {
     newSearch.save((error) => {
       if (error) {
         console.log(`Error trying to save: ${error}`);
+        throw error;
       } else {
         console.log("Data Search has been saved!");
       }
@@ -82,11 +86,46 @@ class Mongo {
 
   static getDataSearched(title: string) {
     return this.SearchedModel.find({ Title: title })
+      .lean()
       .then((response) => {
         if (response.length > 0) {
           return true;
         }
         return false;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  static getDataMovieByImdbID(imdbID: string) {
+    return this.MovieModel.find({ imdbID: imdbID }, { _id: 0, __v: 0 })
+      .lean()
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  static setDataFavorite(data: any) {
+    const newFavorite = new this.FavoriteModel(data);
+    console.log(newFavorite);
+    newFavorite.save((error) => {
+      if (error) {
+        console.log(`Error trying to save: ${error}`);
+        throw error;
+      } else {
+        console.log("Data Favorite has been saved!");
+      }
+    });
+  }
+
+  static getDataFavorite() {
+    return this.FavoriteModel.find({})
+      .then((response) => {
+        return response;
       })
       .catch((err) => {
         throw err;

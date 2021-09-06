@@ -10,7 +10,7 @@ class Action {
   private redisClient = new RedisClient("techChallenge", config.redis);
 
   async findMovie(movieName: string) {
-    console.log("[Action] - getMovie ", movieName);
+    console.log("[Action] - findMovie ", movieName);
     try {
       const cached = await this.redisClient.getValue(`findMovie::${movieName}`);
       if (!cached) {
@@ -40,12 +40,29 @@ class Action {
     }
   }
 
-  getFavorite() {
-    console.log("[Controller] - getMovie");
+  async getFavorite() {
+    console.log("[Action] - getFavorite ");
+    try {
+      const favorites = await Mongo.getDataFavorite();
+      return favorites;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  addFavorite() {
-    console.log("[Controller] - getMovie");
+  async addFavorite(imdbID: string) {
+    console.log("[Action] - addFavorite ", imdbID);
+    try {
+      let data = await Mongo.getDataMovieByImdbID(imdbID);
+
+      if (data.length === 0) {
+        throw new Error(`${imdbID} not found in database.`);
+      }
+
+      Mongo.setDataFavorite(data[0]);
+    } catch (error) {
+      throw error;
+    }
   }
 
   deleteFavorite() {
