@@ -1,7 +1,7 @@
 import HttpClient from "../lib/httpClient";
 import config from "../config/config";
 import { AxiosError } from "axios";
-
+import Mongo from "../db/mongo";
 class Service {
   private httpClient = new HttpClient(config.provider.baseURL);
 
@@ -14,7 +14,9 @@ class Service {
         throw error;
       });
 
-    return data;
+    Mongo.setDataSearched(movieName);
+    Mongo.setDataMovie(data.Search);
+    return data.Search;
   }
 }
 
