@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "d7863029-3fc1-449d-86da-204df54079d5",
+		"name": "TechChallenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Movies_List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movieName\": \"The Office\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tech-challenge-node.herokuapp.com/tech-challenge/movies",
+					"protocol": "https",
+					"host": [
+						"tech-challenge-node",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"tech-challenge",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add_Favorite",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\"imdbID\": \"tt0386676\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tech-challenge-node.herokuapp.com/tech-challenge/favorite",
+					"protocol": "https",
+					"host": [
+						"tech-challenge-node",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"tech-challenge",
+						"favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Favorite",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://tech-challenge-node.herokuapp.com/tech-challenge/favorite",
+					"protocol": "https",
+					"host": [
+						"tech-challenge-node",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"tech-challenge",
+						"favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove_Favorite",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://tech-challenge-node.herokuapp.com/tech-challenge/favorite/:imdbID",
+					"protocol": "https",
+					"host": [
+						"tech-challenge-node",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"tech-challenge",
+						"favorite",
+						":imdbID"
+					],
+					"variable": [
+						{
+							"key": "imdbID",
+							"value": "tt0386676"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
